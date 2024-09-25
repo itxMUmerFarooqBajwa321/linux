@@ -31,28 +31,34 @@ static int amd_enable_sdw_pads(void __iomem *mmio, u32 link_mask, struct device 
 
 	switch (link_mask) {
 	case 1:
-		pad_keeper_en = AMD_SDW0_PAD_EN;
-		pad_pulldown_ctrl_mask = AMD_SDW0_PAD_CTRL_MASK;
-		break;
+		{
+			pad_keeper_en = AMD_SDW0_PAD_EN;
+			pad_pulldown_ctrl_mask = AMD_SDW0_PAD_CTRL_MASK;
+			break;
+		}
 	case 2:
-		pad_keeper_en = AMD_SDW1_PAD_EN;
-		pad_pulldown_ctrl_mask = AMD_SDW1_PAD_CTRL_MASK;
-		break;
+		{
+			pad_keeper_en = AMD_SDW1_PAD_EN;
+			pad_pulldown_ctrl_mask = AMD_SDW1_PAD_CTRL_MASK;
+			break;
+		}
 	case 3:
-		pad_keeper_en = AMD_SDW_PAD_EN;
-		pad_pulldown_ctrl_mask = AMD_SDW_PAD_CTRL_MASK;
-		break;
+		{
+			pad_keeper_en = AMD_SDW_PAD_EN;
+			pad_pulldown_ctrl_mask = AMD_SDW_PAD_CTRL_MASK;
+			break;
+		}
 	default:
-		dev_err(dev, "No SDW Links are enabled\n");
-		return -ENODEV;
+		{
+			dev_err(dev, "No SDW Links are enabled\n");
+			return -ENODEV;
+		}
 	}
 
 	amd_updatel(mmio, ACP_SW_PAD_KEEPER_EN, pad_keeper_en, pad_keeper_en);
 	amd_updatel(mmio, ACP_PAD_PULLDOWN_CTRL, pad_pulldown_ctrl_mask, 0);
-
 	return 0;
 }
-
 static int sdw_amd_cleanup(struct sdw_amd_ctx *ctx)
 {
 	int i;
@@ -65,7 +71,6 @@ static int sdw_amd_cleanup(struct sdw_amd_ctx *ctx)
 
 	return 0;
 }
-
 static struct sdw_amd_ctx *sdw_amd_probe_controller(struct sdw_amd_res *res)
 {
 	struct sdw_amd_ctx *ctx;
@@ -73,7 +78,7 @@ static struct sdw_amd_ctx *sdw_amd_probe_controller(struct sdw_amd_res *res)
 	struct acp_sdw_pdata sdw_pdata[2];
 	struct platform_device_info pdevinfo[2];
 	u32 link_mask;
-	int count, index;
+	long long int count, index;
 	int ret;
 
 	if (!res)
